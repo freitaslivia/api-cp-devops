@@ -7,7 +7,7 @@
 
 https://www.youtube.com/playlist?list=PLnsC4Y30EcL5EpXuIRGfx6y7TnEQxdoOL
 
-[![Assista ao Video](https://i.ibb.co/DVRpqxq/taqui-imagem-tela-video-2.png)]((https://www.youtube.com/watch?v=jG0e61Nqm5I&list=PLnsC4Y30EcL5EpXuIRGfx6y7TnEQxdoOL&index=1))
+[![Assista ao Video](https://i.ibb.co/DVRpqxq/taqui-imagem-tela-video-2.png)](https://www.youtube.com/playlist?list=PLnsC4Y30EcL5EpXuIRGfx6y7TnEQxdoOL)
 
 ---
 # Documentação TAQUI
@@ -174,8 +174,8 @@ SQL oracle:
 
  No sistema temos essas url:
 
-  - Home : http://acicp5rm552342.eastus.azurecontainer.io:8080//template
-  - Lista de Usuarios : http://acicp5rm552342.eastus.azurecontainer.io:8080//listaUsuariosTemplate
+  - Home : http://acicp5rm552342.eastus.azurecontainer.io:8080/template
+  - Lista de Usuarios : http://acicp5rm552342.eastus.azurecontainer.io:8080/listaUsuariosTemplate
   - Lista de Produtos: http://acicp5rm552342.eastus.azurecontainer.io:8080/listaProdutosTemplate
   - Cadastrar Usuarios: http://acicp5rm552342.eastus.azurecontainer.io:8080/cadastroUsuario
   - Cadastrar Produtos: http://acicp5rm552342.eastus.azurecontainer.io:8080/cadastroProduto
