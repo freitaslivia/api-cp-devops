@@ -101,7 +101,7 @@ az container create `
 
 
 ```
-SQL mysql( foi usado esse no video):
+SQL mysql( foi usado nesse no video):
 
 ```
 create table taqui_produto (
