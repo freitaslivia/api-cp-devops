@@ -5,9 +5,9 @@
 
 ## Vídeo pedido na entrega
 
-https://www.youtube.com/playlist?list=PLnsC4Y30EcL7TPk9xY3RDiu0ZEcvT0F7Z
+https://www.youtube.com/playlist?list=PLnsC4Y30EcL5EpXuIRGfx6y7TnEQxdoOL
 
-[![Assista ao Video](https://i.ibb.co/DVRpqxq/taqui-imagem-tela-video-2.png)](https://www.youtube.com/playlist?list=PLnsC4Y30EcL7TPk9xY3RDiu0ZEcvT0F7Z)
+[![Assista ao Video](https://i.ibb.co/DVRpqxq/taqui-imagem-tela-video-2.png)]((https://www.youtube.com/watch?v=jG0e61Nqm5I&list=PLnsC4Y30EcL5EpXuIRGfx6y7TnEQxdoOL&index=1))
 
 ---
 # Documentação TAQUI
@@ -253,6 +253,12 @@ RM 552244
 RM 99892
 <a href="https://www.linkedin.com/in/l%C3%ADvia-freitas-ferreira/">Linkedin</a>
 <a href="https://github.com/freitaslivia">Github</a>
+
+:small_blue_diamond:Rafael Mendonça
+RM 552422
+<a href="https://www.linkedin.com/in/rafael-henrique-de-mendon%C3%A7a-51263326b/">Linkedin</a>
+<a href="https://github.com/rhmendonca">Github</a>
+
 
 :small_blue_diamond:Renato Romeu
 RM 551325
