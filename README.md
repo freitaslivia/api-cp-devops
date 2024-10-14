@@ -12,52 +12,127 @@ https://www.youtube.com/playlist?list=PLnsC4Y30EcL7TPk9xY3RDiu0ZEcvT0F7Z
 ---
 # Documentação TAQUI
 
-Primeiro deve ter instalado na sua maquina java 17 e o gradle(tutorial de como instalar o gradle: https://www.youtube.com/watch?v=R5MwoMsnh2E )
-
-1 - Adicionamos no arquivo build.gradle o plugin do azure:
-```
-plugins {
-    id "com.microsoft.azure.azurewebapp" version "1.1.0"
-}     
-```
-vai ficar assim:
-
-```
-plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.3.3'
-	id 'io.spring.dependency-management' version '1.1.6'
-	id "com.microsoft.azure.azurewebapp" version "1.10.0"
-
-
-}
-```
-2 - Adicionamos  no arquivo build.gradle a configuração do  plugin do azure:
-```
-azurewebapp {
-	subscription = '77473478-7b1d-4345-95f9-5d7f456d8c84'
-	resourceGroup = 'rgsprint3'
-	appName = 'sprint3java'
-	pricingTier = 'F1'
-	region = 'brazilsouth'
-	runtime {
-		os = 'Windows'
-		webContainer = 'Java SE'
-		javaVersion = 'Java 17'
-	}
-}
-
-```
-
-3 - No cmd navegue até o projeto e rode esse comando:
-```
-gradle azureWebAppDeploy
-```
-fonte: https://devblogs.microsoft.com/java/gradle-deploy-java-web-apps-to-azure-in-one-step/
 
 ---------------------------------------
+Dockerfile:
+```
+# Usar a imagem base do JDK 17
+FROM openjdk:17-jdk-slim AS build
 
-SQL:
+# Definir o diretório de trabalho
+WORKDIR /app
+
+# Copiar os arquivos de construção do Gradle
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
+COPY src src/
+COPY gradlew ./
+COPY gradlew.bat ./
+
+# Dar permissão de execução ao script gradlew
+RUN chmod +x gradlew
+
+#tive que adicionar essa duas linhas pois o meu pc não estava reconhecendo gradle
+RUN apt-get update && apt-get install -y dos2unix
+RUN dos2unix gradlew
+
+# Executar o comando de construção do Gradle
+RUN ./gradlew build --no-daemon
+
+# Usar uma imagem mais leve para a aplicação final
+FROM openjdk:17-jdk-slim
+
+# Definir o diretório de trabalho
+WORKDIR /app
+
+# Copiar o JAR gerado da fase de construção
+COPY --from=build /app/build/libs/*.jar app.jar
+
+# Expor a porta 8080
+EXPOSE 8080
+
+# Comando para executar a aplicação
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+Comandos no cmd:
+```
+//Buildar a imagem
+docker build -t imagem .
+
+//Testar a imagem local
+docker run -d -p 8080:8080 imagem
+
+//Criar grupo de recurso
+az group create --name rg-cp5 --location eastus
+ 
+//Criar ACR
+az acr create --resource-group rg-cp5 --name acrcp5 --sku Basic
+ 
+//Logar no ACR
+az acr login --name acrcp5
+
+//Colocar tag pra subir no ACR
+docker tag imagem acrcp5.azurecr.io/rm552342-cp5:v1
+
+//Subir no ACR
+docker push acrcp5.azurecr.io/rm552342-cp5:v1
+ 
+//Testar puxando imagem do ACR local
+//docker run -d -p 8080:8080 acrcp5.azurecr.io/rm552342-cp5:v1
+
+//Entrar no recurso criado, configurações chaves de acesso e habilitar a caixinha de admin
+
+//Logar novamente usando a senha gerada pelo azure
+az acr login --name acrcp5 --username acrcp5 --password colocar-a-senha-aqui
+
+
+az container create `
+--resource-group rg-cp5 `
+--name acicp5rm552342 `
+--image acrcp5.azurecr.io/rm552342-cp5:v1 `
+--cpu 1 `
+--memory 1 `
+--registry-login-server acrcp5.azurecr.io `
+--registry-username acrcp5 `
+--registry-password colocar-a-senha-aqui `
+--ip-address Public `
+--dns-name-label acicp5rm552342 `
+--ports 3000 80 8080
+
+
+```
+SQL mysql( foi usado esse no video):
+
+```
+create table taqui_produto (
+        pk_id_produto bigint not null,
+        ds_descricao VARCHAR(100) not null,
+        nm_exibicao VARCHAR(50) not null,
+        nr_preco float(23) not null,
+        pk_id_usuario bigint not null,
+        primary key (pk_id_produto)
+    ) engine=InnoDB
+    create table taqui_usuario (
+        pk_id_usuario bigint not null,
+        ds_email VARCHAR(100) not null,
+        nm_exibicao VARCHAR(50) not null,
+        ds_senha VARCHAR(15) not null,
+        primary key (pk_id_usuario)
+    ) engine=InnoDB
+
+    alter table taqui_usuario 
+       drop index UK_EMAIL
+
+    alter table taqui_usuario 
+       add constraint UK_EMAIL unique (ds_email)
+
+    alter table taqui_produto 
+       add constraint FKicugv4fe13c00njhjgqgp9wv6 
+       foreign key (pk_id_usuario) 
+       references taqui_usuario (pk_id_usuario) 
+       on delete cascade
+```
+SQL oracle:
 
 ```
     create table taqui_produto (
@@ -99,11 +174,11 @@ SQL:
 
  No sistema temos essas url:
 
-  - Home : https://sprint3java.azurewebsites.net/template
-  - Lista de Usuarios : https://sprint3java.azurewebsites.net/listaUsuariosTemplate
-  - Lista de Produtos: https://sprint3java.azurewebsites.net/listaProdutosTemplate
-  - Cadastrar Usuarios: https://sprint3java.azurewebsites.net/cadastroUsuario
-  - Cadastrar Produtos: https://sprint3java.azurewebsites.net/cadastroProduto
+  - Home : http://acicp5rm552342.eastus.azurecontainer.io:8080//template
+  - Lista de Usuarios : http://acicp5rm552342.eastus.azurecontainer.io:8080//listaUsuariosTemplate
+  - Lista de Produtos: http://acicp5rm552342.eastus.azurecontainer.io:8080/listaProdutosTemplate
+  - Cadastrar Usuarios: http://acicp5rm552342.eastus.azurecontainer.io:8080/cadastroUsuario
+  - Cadastrar Produtos: http://acicp5rm552342.eastus.azurecontainer.io:8080/cadastroProduto
 
  No sistema podemos deletar, cadastrar, editar e ver a lista de produtos e Usuarios
 
