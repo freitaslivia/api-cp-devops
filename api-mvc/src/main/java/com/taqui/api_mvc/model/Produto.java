@@ -23,7 +23,7 @@ public class Produto {
             name = "geradorIds",
             sequenceName = "sq_tb_produto",
             allocationSize = 1)
-    @Column(name = "pk_id_produto",  columnDefinition = "NUMBER(10)")
+    @Column(name = "pk_id_produto")
     private Long id;
 
     @Column(name = "nm_exibicao", columnDefinition = "VARCHAR(50)", nullable = false)

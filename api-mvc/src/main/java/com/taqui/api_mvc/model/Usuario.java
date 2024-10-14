@@ -23,7 +23,7 @@ public class Usuario {
             name = "geradorIds",
             sequenceName = "sq_tb_usuario",
             allocationSize = 1)
-    @Column(name = "pk_id_usuario",  columnDefinition = "NUMBER(10)")
+    @Column(name = "pk_id_usuario")
     private Long id;
 
     @Column(name = "nm_exibicao", columnDefinition = "VARCHAR(50)", nullable = false)
