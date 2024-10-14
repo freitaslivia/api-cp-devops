@@ -14,7 +14,7 @@ COPY gradlew.bat ./
 # Dar permissão de execução ao script gradlew
 RUN chmod +x gradlew
 
-//tive que adicionar essa duas linhas pois o meu pc não estava reconhecendo gradle
+#tive que adicionar essa duas linhas pois o meu pc não estava reconhecendo gradle
 RUN apt-get update && apt-get install -y dos2unix
 RUN dos2unix gradlew
 
